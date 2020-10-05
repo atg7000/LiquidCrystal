@@ -14,6 +14,41 @@ unittest(getRows) {
   assertEqual(2, lcd.getRows());
 }
 
+unittest(writeHigh) {
+  // create lcd object
+  LiquidCrystal_Test lcd(rs, enable, d4, d5, d6, d7);
+  lcd.begin(16, 2);
+  // get currently displayed lines
+  std::vector<std::string> lines = lcd.getLines();
+  // verify that display contains 2 empty lines
+  assertEqual(2, lines.size());
+  assertEqual(0, lines.at(0).length());
+  assertEqual(0, lines.at(1).length());
+
+  // Write stuff
+  lcd.write('A');
+
+  // Testing one character
+  lines = lcd.getLines();
+  std::cout << std::endl << lines.at(0) << std::endl;
+  assertEqual(2, lines.size());
+  assertEqual(1, lines.at(0).length());
+  assertEqual("A", lines.at(0));
+  assertEqual('A',lines.at(0).at(0));
+  assertEqual(0, lines.at(1).length());
+
+  // testing multiple character inputs
+  lcd.write('u');
+  lcd.write('s');
+  lcd.write('t');
+  lcd.write('i');
+  lcd.write('n');
+  lines = lcd.getLines();
+  assertEqual(2, lines.size());
+  assertEqual(6, lines.at(0).length());
+  assertEqual("Austin", lines.at(0));
+}
+
 unittest(clearBuffer) {
   // create lcd object
   LiquidCrystal_Test lcd(rs, enable, d4, d5, d6, d7);

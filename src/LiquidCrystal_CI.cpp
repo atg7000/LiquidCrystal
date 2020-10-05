@@ -141,6 +141,10 @@ inline size_t LiquidCrystal_CI::write(uint8_t value) {
 
 // override lower-level write to capture output
 size_t LiquidCrystal_CI::write(const char *buffer, size_t size) {
+  // _lines.at(0).append(buffer, size);
+  for(int i = size; i > 0; i--) {
+    _lines.push_back(buffer);
+  }
   return LiquidCrystal_Base::write(buffer, size);
 }
 
