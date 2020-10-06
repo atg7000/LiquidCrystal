@@ -155,19 +155,19 @@ void LiquidCrystal_CI::createChar(uint8_t location, uint8_t charmap[]) {
 inline size_t LiquidCrystal_CI::write(uint8_t value) {
 
   // if autoscroll
-    // while (position < column)
-      // position 0 = position 1
+  // while (position < column)
+  // position 0 = position 1
   // if (lcd.isAutoscroll()) {
   //   for (int i = 0; i < _col; i++) {
 
   //   }
   // }
 
-  // TODO: write with rows and columns 
+  // TODO: write with rows and columns
   std::string line = _lines.at(_row);
   while (line.length() <= _col) {
     line += ' ';
-  } 
+  }
 
   line.at(_col) = value;
   ++_col;

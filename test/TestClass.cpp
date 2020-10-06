@@ -147,7 +147,7 @@ unittest(write_high) {
   assertEqual(2, lines.size());
   assertEqual(1, lines.at(0).length());
   assertEqual("A", lines.at(0));
-  assertEqual('A',lines.at(0).at(0));
+  assertEqual('A', lines.at(0).at(0));
   assertEqual(0, lines.at(1).length());
 
   // testing multiple character inputs
@@ -202,7 +202,7 @@ unittest(setCursor_high) {
   assertEqual(5, lcd.getCursorCol());
   assertEqual(0, lcd.getCursorRow());
 
-  lcd.setCursor(8,0);
+  lcd.setCursor(8, 0);
   lcd.write('Y');
 
   std::vector<std::string> lines = lcd.getLines();
@@ -235,15 +235,15 @@ unittest(home_high) {
 
   // Print message
   lcd.print("Test line");
-  //Check Cursor Location
-  assertNotEqual(0, lcd.getCursorCol());;
+  // Check Cursor Location
+  assertNotEqual(0, lcd.getCursorCol());
+  ;
 
   // Return Home
   lcd.home();
   // Check Cursor is at upper-left
   assertEqual(0, lcd.getCursorCol());
   assertEqual(0, lcd.getCursorRow());
-  
 }
 
 unittest(display_high) {
