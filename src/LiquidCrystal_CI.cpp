@@ -40,11 +40,17 @@ void LiquidCrystal_CI::init(uint8_t rs) {
   _cols = 16;
   _row = 0;
   _rows = 1;
+  _autoscroll = false;
   _display = false;
   _cursor = false;
   _blink = false;
   _lines.clear();
   _lines.resize(_rows);
+  for (int character = 0; character < 8; character++) {
+    for (int bite = 0; bite < 8; bite++) {
+      _customChars[character][bite] = B00000;
+    }
+  }
   LiquidCrystal_CI::_instances[_rs_pin] = this;
 }
 
@@ -54,6 +60,7 @@ void LiquidCrystal_CI::begin(uint8_t cols, uint8_t lines, uint8_t dotsize) {
   _cols = cols;
   _row = 0;
   _rows = lines;
+  _autoscroll = false;
   _display = false;
   _cursor = false;
   _blink = false;
@@ -124,27 +131,53 @@ void LiquidCrystal_CI::leftToRight() { LiquidCrystal_Base::leftToRight(); }
 void LiquidCrystal_CI::rightToLeft() { LiquidCrystal_Base::rightToLeft(); }
 
 // This will 'right justify' text from the cursor
-void LiquidCrystal_CI::autoscroll() { LiquidCrystal_Base::autoscroll(); }
+void LiquidCrystal_CI::autoscroll() {
+  LiquidCrystal_Base::autoscroll();
+  _autoscroll = true;
+}
 
 // This will 'left justify' text from the cursor
-void LiquidCrystal_CI::noAutoscroll() { LiquidCrystal_Base::noAutoscroll(); }
+void LiquidCrystal_CI::noAutoscroll() {
+  LiquidCrystal_Base::noAutoscroll();
+  _autoscroll = false;
+}
 
 // Allows us to fill the first 8 CGRAM locations
 // with custom characters
 void LiquidCrystal_CI::createChar(uint8_t location, uint8_t charmap[]) {
   LiquidCrystal_Base::createChar(location, charmap);
+  // fill the customChars with the charmap
+  for (int line = 0; line < 8; line++) {
+    _customChars[location][line] = charmap[line];
+  }
 }
 
 inline size_t LiquidCrystal_CI::write(uint8_t value) {
+
+  // if autoscroll
+    // while (position < column)
+      // position 0 = position 1
+  // if (lcd.isAutoscroll()) {
+  //   for (int i = 0; i < _col; i++) {
+
+  //   }
+  // }
+
+  // TODO: write with rows and columns 
+  std::string line = _lines.at(_row);
+  while (line.length() <= _col) {
+    line += ' ';
+  } 
+
+  line.at(_col) = value;
+  ++_col;
+
+  _lines.at(_row) = line;
   return LiquidCrystal_Base::write(value);
 }
 
 // override lower-level write to capture output
 size_t LiquidCrystal_CI::write(const char *buffer, size_t size) {
-  // _lines.at(0).append(buffer, size);
-  for(int i = size; i > 0; i--) {
-    _lines.push_back(buffer);
-  }
   return LiquidCrystal_Base::write(buffer, size);
 }
 
