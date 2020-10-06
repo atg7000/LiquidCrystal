@@ -533,7 +533,8 @@ unittest(setCursor) {
   736 : 1  0      1110  0x6E
 */
 unittest(write) {
-  vector<int> expected{576, 528, 624, 592, 624, 560, 624, 576, 608, 656, 608, 736};
+  vector<int> expected{576, 528, 624, 592, 624, 560,
+                       624, 576, 608, 656, 608, 736};
   LiquidCrystal_Test lcd(rs, enable, d4, d5, d6, d7);
   lcd.begin(16, 2);
   BitCollector pinValues(true); // test the next line
